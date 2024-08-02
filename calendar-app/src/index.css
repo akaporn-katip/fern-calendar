@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "fern";
+  font-style: normal;
+  size-adjust: 225%;
+
+  /* font-size: calc(1rem + 25vw); */
+  src: url("./assets/fonts/font-fern.otf"), format("otf");
+}
+
+html,
+body {
+  @apply h-full font-fern;
+}
