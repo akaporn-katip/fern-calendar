@@ -67,12 +67,12 @@ export default function Calendar(): JSX.Element {
   };
 
   return (
-    <div className="flex flex-col text-white gap-2 w-60 aspect-[4/3]">
-      <div className="flex justify-between  text-lg">
+    <div className="flex flex-col text-white gap-2 w-full">
+      <div className="flex justify-between">
         <div>
           <button onClick={() => changeMonth(-1)}>{"-"}</button>
         </div>
-        <h2>{formatMonthYear(currentDate)}</h2>
+        <h2 className="text-lg">{formatMonthYear(currentDate)}</h2>
         <div>
           <button onClick={() => changeMonth(1)}>{"-"}</button>
         </div>
