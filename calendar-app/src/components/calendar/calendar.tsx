@@ -67,7 +67,7 @@ export default function Calendar(): JSX.Element {
   };
 
   return (
-    <div className="flex flex-col text-white gap-2 w-full">
+    <div className="flex flex-col text-blue-100 gap-2 w-full">
       <div className="flex justify-between">
         <div>
           <button onClick={() => changeMonth(-1)}>{"-"}</button>
@@ -77,7 +77,7 @@ export default function Calendar(): JSX.Element {
           <button onClick={() => changeMonth(1)}>{"-"}</button>
         </div>
       </div>
-      <div className="grid grid-cols-7 gap-2 text-center">
+      <div className="grid grid-cols-7 gap-1 text-center">
         <div className="text-sunday">Sun</div>
         <div>M</div>
         <div>T</div>
