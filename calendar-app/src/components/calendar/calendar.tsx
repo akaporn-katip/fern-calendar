@@ -1,10 +1,81 @@
-export default function Calendar() {
+import { useState } from "react";
+
+export default function Calendar(): JSX.Element {
+  const [currentDate, setCurrentDate] = useState(new Date());
+
+  const getDaysInMonth = (date: Date): number => {
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    return new Date(year, month + 1, 0).getDate();
+  };
+
+  const getFirstDayOfMonth = (date: Date): number => {
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    return new Date(year, month, 1).getDay();
+  };
+
+  const isSunday = (date: Date): boolean => {
+    return date.getDay() === 0;
+  };
+
+  const renderDays = (): JSX.Element[] => {
+    const daysInMonth = getDaysInMonth(currentDate);
+    const firstDayOfMonth = getFirstDayOfMonth(currentDate);
+    const days: JSX.Element[] = [];
+
+    for (let i = 0; i < firstDayOfMonth; i++) {
+      days.push(<div key={`empty-${i}`}></div>);
+    }
+
+    for (let i = 1; i <= daysInMonth; i++) {
+      const date = new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth(),
+        i
+      );
+      const isSundayClass = isSunday(date) ? "text-sunday" : "";
+      days.push(
+        <div className={`${isSundayClass}`} key={i}>
+          {i}
+        </div>
+      );
+    }
+
+    return days;
+  };
+
+  const changeMonth = (offset: number): void => {
+    const newDate = new Date(
+      currentDate.setMonth(currentDate.getMonth() + offset)
+    );
+    setCurrentDate(new Date(newDate));
+  };
+
+  const formatMonthYear = (date: Date): string => {
+    const options: Intl.DateTimeFormatOptions = {
+      month: "numeric",
+      year: "numeric",
+    };
+    const format = new Intl.DateTimeFormat("en-BG", options);
+    const parts = format.formatToParts(date);
+
+    const month = parts.find((part) => part.type === "month")?.value;
+    const year = parts.find((part) => part.type === "year")?.value;
+
+    return `${month}, ${year}`;
+  };
+
   return (
     <div className="flex flex-col text-white gap-2 w-60 aspect-[4/3]">
       <div className="flex justify-between  text-lg">
-        <div>{"<"}</div>
-        <h2>8, 2024</h2>
-        <div>{">"}</div>
+        <div>
+          <button onClick={() => changeMonth(-1)}>{"-"}</button>
+        </div>
+        <h2>{formatMonthYear(currentDate)}</h2>
+        <div>
+          <button onClick={() => changeMonth(1)}>{"-"}</button>
+        </div>
       </div>
       <div className="grid grid-cols-7 gap-2 text-center">
         <div className="text-sunday">Sun</div>
@@ -14,41 +85,8 @@ export default function Calendar() {
         <div>T</div>
         <div>F</div>
         <div>Sat</div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div>1</div>
-        <div>2</div>
-        <div>3</div>
-        <div>4</div>
-        <div>5</div>
-        <div>6</div>
-        <div>7</div>
-        <div>8</div>
-        <div>9</div>
-        <div>10</div>
-        <div>11</div>
-        <div>12</div>
-        <div>13</div>
-        <div>14</div>
-        <div>15</div>
-        <div>16</div>
-        <div>17</div>
-        <div>18</div>
-        <div>19</div>
-        <div>20</div>
-        <div>21</div>
-        <div>22</div>
-        <div>23</div>
-        <div>24</div>
-        <div>25</div>
-        <div>26</div>
-        <div>27</div>
-        <div>28</div>
-        <div>29</div>
-        <div>30</div>
-        <div>31</div>
+
+        {renderDays()}
       </div>
       <div className="flex justify-center text-lg pt-4">
         <span className="text-sm">Have a nice day!!</span>
